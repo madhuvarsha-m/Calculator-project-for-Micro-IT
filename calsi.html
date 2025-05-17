@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enhanced Simple Calculator Application with Dark Theme and Quote">
+    <title>Calculator - Your Everyday Math Companion</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background-color: #121212; 
+            color: #ffffff;
+            flex-direction: column;
+        }
+        .quote {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #bbbbbb;
+        }
+        .calculator { 
+            background: #1e1e2d; 
+            padding: 20px; 
+            border-radius: 15px; 
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); 
+            width: 340px; 
+        }
+        .display { 
+            font-size: 2rem; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            text-align: right; 
+            background: #2d2d3a; 
+            border-radius: 8px; 
+            color: #ffffff;
+            overflow-x: auto;
+        }
+        .buttons { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+        }
+        button { 
+            padding: 15px; 
+            font-size: 1rem; 
+            border: none; 
+            background: #4a4a6a; 
+            color: #ffffff; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: transform 0.2s, background 0.2s; 
+        }
+        button:hover { 
+            background: #6a6a8e; 
+            transform: scale(1.05); 
+        }
+        button.operation { background: #ffbb33; }
+        button.clear { background: #ff4444; }
+        button.clear:hover { background: #e03e3e; }
+    </style>
+</head>
+<body>
+    <div class="quote">"Your everyday math companion."</div>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="clearDisplay()" class="clear">C</button>
+            <button onclick="backspace()">&#x232B;</button>
+            <button onclick="appendDisplay('%')">%</button>
+            <button onclick="appendDisplay('/')" class="operation">/</button>
+
+            <button onclick="appendDisplay('7')">7</button>
+            <button onclick="appendDisplay('8')">8</button>
+            <button onclick="appendDisplay('9')">9</button>
+            <button onclick="appendDisplay('*')" class="operation">*</button>
+
+            <button onclick="appendDisplay('4')">4</button>
+            <button onclick="appendDisplay('5')">5</button>
+            <button onclick="appendDisplay('6')">6</button>
+            <button onclick="appendDisplay('-')" class="operation">-</button>
+
+            <button onclick="appendDisplay('1')">1</button>
+            <button onclick="appendDisplay('2')">2</button>
+            <button onclick="appendDisplay('3')">3</button>
+            <button onclick="appendDisplay('+')" class="operation">+</button>
+
+            <button onclick="appendDisplay('00')">00</button>
+            <button onclick="appendDisplay('0')">0</button>
+            <button onclick="appendDisplay('.')">.</button>
+            <button onclick="calculate()" class="operation">=</button>
+
+            <button onclick="appendDisplay('(')">(</button>
+            <button onclick="appendDisplay(')')">)</button>
+            <button onclick="appendDisplay('!')">!</button>
+        </div>
+    </div>
+
+    <script>
+        function clearDisplay() { document.getElementById('display').innerText = '0'; }
+
+        function backspace() { 
+            const display = document.getElementById('display');
+            display.innerText = display.innerText.slice(0, -1) || '0';
+        }
+
+        function appendDisplay(value) {
+            const display = document.getElementById('display');
+            if (display.innerText === '0') display.innerText = value;
+            else display.innerText += value;
+        }
+
+        function calculate() {
+            const display = document.getElementById('display');
+            let expression = display.innerText;
+
+            if (expression.includes('!')) {
+                expression = expression.replace(/(\d+)!/g, (_, n) => factorial(n));
+            }
+
+            try { display.innerText = eval(expression); }
+            catch { display.innerText = 'Error'; }
+        }
+
+        function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+    </script>
+</body>
+</html>
